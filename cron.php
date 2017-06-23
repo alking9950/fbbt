@@ -8,7 +8,7 @@ is_dir(data) or mkdir(data);
 is_dir(fb_data) or mkdir(fb_data);
 (is_dir(data) and is_dir(fb_data)) or die("Gagal membuat directory !");
 
-$a = json_decode(file_get_contents("token.txt"), 1);
+$a = json_decode(file_get_contents("/root/botfb/config/ammarfaizi2_token.txt"), 1);
 header("Content-type:text/plain");
 $ch = curl_init("https://graph.facebook.com/me/feed?limit=1&fields=id&access_token={$a[1]}");
 curl_setopt_array($ch, array(
