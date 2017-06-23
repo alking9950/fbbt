@@ -1,7 +1,5 @@
 <?php
 
-namespace handler;
-
 /**
  * @author  Ammar Faizi <ammarfaizi2@gmail.com>
  * @package Teacrypt
