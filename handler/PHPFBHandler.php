@@ -1,5 +1,7 @@
 <?php
 
+use Hub\Singleton;
+
 defined("data") or die("data not defined !");
 defined("fb_data") or die("fb_data not defined !");
 
@@ -56,9 +58,14 @@ class PHPFBHandler
     private $output;
 
     /**
+     * @var string
+     */
+    public $user;
+
+    /**
      * Constructor
      */
-    public function __construct($user)
+    public function __construct()
     {
         is_dir(fb_data."/cookies") or mkdir(fb_data."/cookies");
         is_dir(fb_data."/logs") or mkdir(fb_data."/logs");
@@ -66,8 +73,17 @@ class PHPFBHandler
             throw new \Exception("Cannot make directory", 1);
             die("Cannot make directory");
         }
-        $this->user_cookies = fb_data."/cookies/{$user}_cookies.cr";
-        $this->init_cookiefile();
+    }
+
+    /**
+     * @param string $user
+     */
+    public static function init($user)
+    {
+        $self = self::getInstance();
+        $self->user = $user;
+        $self->user_cookies = fb_data."/cookies/{$self->user}_cookies.cr";
+        $self->init_cookiefile();
     }
 
     /**
@@ -82,7 +98,7 @@ class PHPFBHandler
                 header($key.": ".$value);
             }
         }
-        print $self->output;
+        return $self->output;
     }
 
     /**
@@ -214,7 +230,7 @@ class PHPFBHandler
     {
         $this->decrypt_cookies();
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            $url = self::FBURL.ltrim("/{$url}", "/");
+            $url = self::FBURL."/".ltrim("{$url}", "/");
         }
         $ch = curl_init($url);
         $op = array(
