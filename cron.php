@@ -43,5 +43,5 @@ if ($old!=$curpos) {
 		}
 	}
 } else {
-	print "old_post";
+	print "old_post\n";
 }
